@@ -96,6 +96,43 @@ def process_fourth_img(img_name):
     cv2.imwrite('../hw_output/img4_res.jpg', img_v)
 
 
+def process_fifth_img(img_name):
+    img = cv2.imread(img_name)
+    cv2.imshow('Raw image', img)
+    cv2.waitKey(0)
+
+    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    cv2.imshow('Gray image', img_gray)
+    cv2.waitKey(0)
+
+    # clahe = cv2.createCLAHE(clipLimit=55.0, tileGridSize=(15, 15))
+    # img_eq = clahe.apply(img_gray)
+    # # img_eq = cv2.equalizeHist(img_gray)
+    # cv2.imshow('Equalized image', img_gray)
+    # cv2.waitKey(0)
+
+    img_dil = cv2.dilate(img_gray, np.ones((2, 2), np.uint8), iterations=5)
+    cv2.imshow('Dilated image', img_dil)
+    cv2.waitKey(0)
+
+    img_er = cv2.erode(img_dil, np.ones((1, 1), np.uint8), iterations=2)
+    cv2.imshow('Eroded image', img_er)
+    cv2.waitKey(0)
+
+    img_blur = cv2.medianBlur(img_er, 7)#, 3, borderType=cv2.BORDER_REPLICATE)
+    cv2.imshow('Blurred image', img_blur)
+    cv2.waitKey(0)
+
+    img_dil = cv2.dilate(img_blur, np.ones((3, 3), np.uint8), iterations=1)
+    cv2.imshow('Dilated image 2', img_dil)
+    cv2.waitKey(0)
+
+    img_bin = cv2.adaptiveThreshold(img_dil, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 125, 1.5)
+    cv2.imshow('Tresholded image', img_bin)
+    cv2.waitKey(0)
+
+
+
 def show_img_by_channels(img):
     """
     Function which draws all channels as a wider single-channel image.
@@ -120,4 +157,5 @@ if __name__ == '__main__':
     # process_first_img('../Images for home task #1/hearts 1.png')
     # process_second_img('../Images for home task #1/hearts 2.png')
     # process_third_img('../Images for home task #1/hearts 3.png')
-    process_fourth_img('/home/calvus/It-Jim course/les-01/Images for home task #1/hearts 4.png')
+    # process_fourth_img('../Images for home task #1/hearts 4.png')
+    process_fifth_img('../Images for home task #1/hearts 5.png')
