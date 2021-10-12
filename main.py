@@ -144,6 +144,27 @@ def process_sixth_img(img_name):
     cv2.imwrite('../hw_output/img6_res.jpg', img_thr)
 
 
+def process_tenth_img(img_name):
+    img = cv2.imread(img_name)
+    cv2.imshow('Raw image', img)
+    cv2.waitKey(0)
+
+    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    cv2.imshow('Gray image', img_gray)
+    cv2.waitKey(0)
+
+    img_h = cv2.dilate(img_gray, np.ones((1, 10), np.uint8), iterations=1)
+    img_h = cv2.erode(img_h, np.ones((1, 10), np.uint8), iterations=1)
+    cv2.imshow('Lined hearts', img_h)
+    cv2.waitKey(0)
+
+    img_r = cv2.erode(img_h, np.ones((2, 2), np.uint8), iterations=1)
+    cv2.imshow('R', img_r)
+    cv2.waitKey(0)
+
+    cv2.imwrite('../hw_output/img10_res.jpg', img_r)
+
+
 def show_img_by_channels(img):
     """
     Function which draws all channels as a wider single-channel image.
@@ -170,5 +191,6 @@ if __name__ == '__main__':
     # process_third_img('../Images for home task #1/hearts 3.png')
     # process_fourth_img('../Images for home task #1/hearts 4.png')
     # process_fifth_img('../Images for home task #1/hearts 5.png')
-    process_sixth_img('../Images for home task #1/hearts 6.png')
+    # process_sixth_img('../Images for home task #1/hearts 6.png')
+    process_tenth_img('../Images for home task #1/hearts 10.png')
 
