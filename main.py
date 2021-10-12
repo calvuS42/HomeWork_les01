@@ -120,6 +120,30 @@ def process_fifth_img(img_name):
     cv2.imwrite('../hw_output/img5_res.jpg', img_bin)
 
 
+def process_sixth_img(img_name):
+    img = cv2.imread(img_name)
+    cv2.imshow('Raw image', img)
+    cv2.waitKey(0)
+
+    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    cv2.imshow('Gray image', img_gray)
+    cv2.waitKey(0)
+
+    img_bin = cv2.boxFilter(img_gray, 0, (7, 7), borderType=cv2.BORDER_REPLICATE)
+    cv2.imshow('Tresholded image', img_bin)
+    cv2.waitKey(0)
+
+    img_median = cv2.medianBlur(img_bin, 13)
+    cv2.imshow('Medianed image', img_median)
+    cv2.waitKey(0)
+
+    ret, img_thr = cv2.threshold(img_median, 115, 255, cv2.THRESH_BINARY)
+    cv2.imshow('Thresh image', img_thr)
+    cv2.waitKey(0)
+
+    cv2.imwrite('../hw_output/img6_res.jpg', img_thr)
+
+
 def show_img_by_channels(img):
     """
     Function which draws all channels as a wider single-channel image.
@@ -145,4 +169,6 @@ if __name__ == '__main__':
     # process_second_img('../Images for home task #1/hearts 2.png')
     # process_third_img('../Images for home task #1/hearts 3.png')
     # process_fourth_img('../Images for home task #1/hearts 4.png')
-    process_fifth_img('../Images for home task #1/hearts 5.png')
+    # process_fifth_img('../Images for home task #1/hearts 5.png')
+    process_sixth_img('../Images for home task #1/hearts 6.png')
+
