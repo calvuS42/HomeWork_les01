@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
+
 
 def process_first_img(img_name):
     img = cv2.imread(img_name)
@@ -153,39 +153,32 @@ def process_seventh_img(img_name):
     cv2.imshow('', img_gray)
     cv2.waitKey(0)
 
-    clahe = cv2.createCLAHE(clipLimit=4.5, tileGridSize=(13, 13))
-    img_op = clahe.apply(img_gray)
-    cv2.imshow('', img_op)
-    cv2.waitKey(0)
-
-    img_median = cv2.medianBlur(img_op, 15)
-    cv2.imshow('', img_median)
-    cv2.waitKey(0)
-
-    img_dil = cv2.dilate(img_gray, np.ones((3, 3), np.uint8), iterations=3)
+    img_dil = cv2.dilate(img_gray, np.ones((2, 2), np.uint8), iterations=4)
     cv2.imshow('', img_dil)
     cv2.waitKey(0)
 
-    img_b = cv2.boxFilter(img_dil, 0, (7, 7), borderType=cv2.BORDER_REPLICATE)
-    cv2.imshow('', img_b)
-    cv2.waitKey(0)
-
-    img_median = cv2.medianBlur(img_b, 17)
-    cv2.imshow('', img_median)
-    cv2.waitKey(0)
-
-    clahe = cv2.createCLAHE(clipLimit=8, tileGridSize=(3, 3))
-    img_op = clahe.apply(img_median)
+    clahe = cv2.createCLAHE(clipLimit=5, tileGridSize=(5, 5))
+    img_op = clahe.apply(img_dil)
     cv2.imshow('', img_op)
     cv2.waitKey(0)
 
-    img_thresh = cv2.adaptiveThreshold(img_op, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 155, 5)
-    cv2.imshow('', img_thresh)
+    img_median = cv2.medianBlur(img_op, 11)
+    cv2.imshow('', img_median)
     cv2.waitKey(0)
 
-    # _, img_thr = cv2.threshold(img_op, 115, 255, cv2.THRESH_BINARY)
-    # cv2.imshow('', img_thr)
-    # cv2.waitKey(0)
+    img_median = cv2.medianBlur(img_median, 13)
+    cv2.imshow('', img_median)
+    cv2.waitKey(0)
+
+    img_median = cv2.medianBlur(img_median, 9)
+    cv2.imshow('', img_median)
+    cv2.waitKey(0)
+
+    img_thr = cv2.adaptiveThreshold(img_median, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 205, 10)
+    cv2.imshow('', img_thr)
+    cv2.waitKey(0)
+
+    cv2.imwrite('../hw_output/img7_res.jpg', img_thr)
 
 
 def process_eighth_img(img_name):
@@ -196,16 +189,6 @@ def process_eighth_img(img_name):
 
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     cv2.imshow('', img_gray)
-    cv2.waitKey(0)
-
-    # clahe = cv2.createCLAHE(clipLimit=2, tileGridSize=(3, 3))
-    # img_op = clahe.apply(img_gray)
-    img_op = cv2.equalizeHist(img_gray)
-    cv2.imshow('', img_op)
-    cv2.waitKey(0)
-
-    img_median = cv2.medianBlur(img_op, 5)
-    cv2.imshow('', img_median)
     cv2.waitKey(0)
 
     img_dil = cv2.dilate(img_gray, np.ones((3, 3), np.uint8), iterations=3)
@@ -229,7 +212,7 @@ def process_eighth_img(img_name):
     cv2.imshow('', img_thresh)
     cv2.waitKey(0)
 
-    cv2.imwrite('../hw_output/img10_res.jpg', img_thresh)
+    cv2.imwrite('../hw_output/img8_res.jpg', img_thresh)
 
 
 def process_ninth_img(img_name):
@@ -249,7 +232,7 @@ def process_ninth_img(img_name):
     cv2.imshow('', img)
     cv2.waitKey(0)
 
-    cv2.imwrite('../hw_output/img10_res.jpg', img)
+    cv2.imwrite('../hw_output/img9_res.jpg', img)
 
 
 def process_tenth_img(img_name):
@@ -273,35 +256,15 @@ def process_tenth_img(img_name):
     cv2.imwrite('../hw_output/img10_res.jpg', img_r)
 
 
-def show_img_by_channels(img):
-    """
-    Function which draws all channels as a wider single-channel image.
-    :return: No return
-    """
-
-    # Create an empty image (numpy array) for wide image result
-    img_split_ch = np.zeros((img.shape[0], img.shape[1] * img.shape[2]), dtype=np.uint8)
-
-    # Filling the empty image with channels intensities
-    for i in range(img.shape[2]):
-        img_split_ch[:, img.shape[1] * i: img.shape[1] * (i + 1)] = img[:, :, i]
-
-    # Show the channel-separated image
-    cv2.imshow('Three channels of color image in its color space', img_split_ch)
-
-    # Waiting for a key (milliseconds to wait or 0 for infinite wait for a key stroke)
-    cv2.waitKey(0)  # won't draw anything without this function!!!
-
-
 if __name__ == '__main__':
-    # process_first_img('../Images for home task #1/hearts 1.png')
-    # process_second_img('../Images for home task #1/hearts 2.png')
-    # process_third_img('../Images for home task #1/hearts 3.png')
-    # process_fourth_img('../Images for home task #1/hearts 4.png')
-    # process_fifth_img('../Images for home task #1/hearts 5.png')
-    # process_sixth_img('../Images for home task #1/hearts 6.png')
+    process_first_img('../Images for home task #1/hearts 1.png')
+    process_second_img('../Images for home task #1/hearts 2.png')
+    process_third_img('../Images for home task #1/hearts 3.png')
+    process_fourth_img('../Images for home task #1/hearts 4.png')
+    process_fifth_img('../Images for home task #1/hearts 5.png')
+    process_sixth_img('../Images for home task #1/hearts 6.png')
     process_seventh_img('../Images for home task #1/hearts 7.png')
-    # process_eighth_img('../Images for home task #1/hearts 8.png')
-    # process_ninth_img('../Images for home task #1/hearts 9.png')
-    # process_tenth_img('../Images for home task #1/hearts 10.png')
+    process_eighth_img('../Images for home task #1/hearts 8.png')
+    process_ninth_img('../Images for home task #1/hearts 9.png')
+    process_tenth_img('../Images for home task #1/hearts 10.png')
 
