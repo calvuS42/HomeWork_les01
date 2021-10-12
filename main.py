@@ -144,6 +144,25 @@ def process_sixth_img(img_name):
     cv2.imwrite('../hw_output/img6_res.jpg', img_thr)
 
 
+def process_ninth_img(img_name):
+    img = cv2.imread(img_name)
+    cv2.imshow('', img)
+    cv2.waitKey(0)
+
+    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    cv2.imshow('', img_gray)
+    cv2.waitKey(0)
+
+    img_op = cv2.equalizeHist(img_gray)
+    cv2.imshow('', img_op)
+    cv2.waitKey(0)
+
+    img = cv2.bitwise_not(img_op)
+    cv2.imshow('', img)
+    cv2.waitKey(0)
+
+    cv2.imwrite('../hw_output/img10_res.jpg', img)
+
 def process_tenth_img(img_name):
     img = cv2.imread(img_name)
     cv2.imshow('Raw image', img)
@@ -192,5 +211,6 @@ if __name__ == '__main__':
     # process_fourth_img('../Images for home task #1/hearts 4.png')
     # process_fifth_img('../Images for home task #1/hearts 5.png')
     # process_sixth_img('../Images for home task #1/hearts 6.png')
-    process_tenth_img('../Images for home task #1/hearts 10.png')
+    process_ninth_img('../Images for home task #1/hearts 9.png')
+    # process_tenth_img('../Images for home task #1/hearts 10.png')
 
